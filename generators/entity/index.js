@@ -61,7 +61,7 @@ module.exports = JhipsterGenerator.extend({
     },
     initializing: {
         readConfig() {
-            this.jhipsterAppConfig = this.getJhipsterAppConfig();
+            this.jhipsterAppConfig = this.getAllJhipsterConfig();
             if (!this.jhipsterAppConfig) {
                 this.error('Can\'t read .yo-rc.json');
             }
@@ -241,7 +241,7 @@ module.exports = JhipsterGenerator.extend({
 
                 this.replaceContent(
                     `${webappDir}app/entities/${entityName}/${entityName}-update.component.ts`,
-                    'private activatedRoute: ActivatedRoute) {}',
+                    'protected activatedRoute: ActivatedRoute) {}',
                     partialFiles.angular.entityUpdateCompTsConstr(this),
                     false
                 );
