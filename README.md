@@ -1,107 +1,133 @@
 <div>
-    <a href="http://jhipster.github.io">
-        <img src="https://github.com/sonalake/generator-jhipster-multitenancy/raw/master/images/logo-jhipster.png">
+    <a href="https://www.jhipster.tech/">
+        <img src="https://www.jhipster.tech/images/logo/jhipster_family_member_1.svg" height="200px">
     </a>
 </div>
 Greetings, Java Hipster!
 
 # generator-jhipster-multitenancy
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-> A JHipster module for creating multitenant applications
+> A JHipster blueprint for creating multitenant applications
 
 
 # Introduction
-This module is used for creating multitenant applications. The module will:
+This is a [JHipster](https://www.jhipster.tech/) blueprint for creating multitenant applications. The blueprint will:
 
- - Generate a Tenant entity.
- - Make the User, and any other entities, tenant aware.
+ - Generate a JHipster application
+ - Generate a Tenant entity
+ - Make the User, and any other entities, tenant aware
 
 # Table of contents
 
 * [Prerequisites](#prerequisites)
 * [Installation](#installation)
+  * [With NPM](#with-npm)
+  * [With Yarn](#with-yarn)
 * [Usage](#usage)
+  * [Generate Multitenant Application](#generate-multitenant-application)
   * [Making an entity tenant aware](#making-an-entity-tenant-aware)
-  * [Applying the tenant filter](#applying-the-tenant-filter)
+* [Running A Development Version](#running-a-development-version)
 * [License](#license)
 
 # Prerequisites
 
-As this is a [JHipster](http://jhipster.github.io/) module, we expect you have JHipster and its related tools already installed:
+As this is a [JHipster](https://www.jhipster.tech/) blueprint, we expect you have JHipster v6.3.1 (newer versions are not yet supported) and its related tools already installed:
 
-- [Installing JHipster](https://jhipster.github.io/installation.html)
+- [Installing JHipster](https://www.jhipster.tech/installation/)
 
 # Installation
 
-If you are using Yarn:
+## With NPM
+
+To install this blueprint:
 
 ```bash
-# install the module
-yarn global add generator-jhipster-multitenancy
-
-# update the module
-yarn global upgrade generator-jhipster-multitenancy
+npm install -g generator-jhipster-multitenancy
 ```
 
-If you are using npm:
+To update this blueprint:
 
 ```bash
-#install the module
-npm install -g generator-jhipster-multitenancy
-
-# update the module
 npm update -g generator-jhipster-multitenancy
+```
+
+## With Yarn
+
+To install this blueprint:
+
+```bash
+yarn global add generator-jhipster-multitenancy
+```
+
+To update this blueprint:
+
+```bash
+yarn global upgrade generator-jhipster-multitenancy
 ```
 
 # Usage
 
-After installation, run the module on a JHipster generated application:
+## Generate Multitenant Application
+
+To generate your JHipster Multitenant application using the blueprint, run the below command
 
 ```bash
-yo jhipster-multitenancy
+jhipster --blueprints multitenancy
 ```
-
-You will then be prompted for the name of your tenant entity.
 
 ## Making an entity tenant aware
 
-Once the module has been run on the JHipster generated application, any entity in the application can be made tenant aware. This is done using the `jhipster-multitenancy:entity` sub-generator.
-
-For an existing entity:
+Once the blueprint has generated your application, a tenant entity has been created. All entitites created now can be made tenant aware. Create a new entity using the standard JHipster command.
 
 ```bash
-yo jhipster-multitenancy:entity Book
+jhipster entity Book
 ```
 
-This sub-generator also hooks into the `jhipster:entity` sub-generator. When creating a new entity, you will be prompted to make an entity tenant aware.
+Upon generation, you will then be asked if you want to make your entity tenant aware.
 
 ```bash
-yo jhipster:entity Book
-
-# upon generation, you will be asked
 Do you want to make Book tenant aware? (Y/n)
 ```
 
-## Applying the tenant filter
+# Running A Development Version
 
-Tenancy is enforced using a Hibernate filter. The filter identifies a discriminator column that is used to used to uniquely identify a tenant. By default, jhipster-multitenancy adds the filter to the `User` class. For other entities, you must add the filter manually. See below for an example.
+During development of blueprint, please note the below steps. They are very important.
+
+1. Link your blueprint globally
+
+Note: If you do not want to link the blueprint(step 3) to each project being created, use NPM instead of Yarn as yeoman doesn't seem to fetch globally linked Yarn modules. On the other hand, this means you have to use NPM in all the below steps as well.
 
 ```bash
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
-
-/**
- * A book.
- */
-@Entity
-@Table(name = "book")
-@FilterDef(name = "COMPANY_FILTER", parameters = {@ParamDef(name = "companyId", type = "long")})
-@Filter(name = "COMPANY_FILTER", condition = "company_id = :companyId")
-public class Book extends AbstractAuditingEntity implements Serializable {
-    ...
-}
+cd multitenancy
+npm link
 ```
+
+2. Link a development version of JHipster to your blueprint (optional: required only if you want to use a non-released JHipster version, like the master branch or your own custom fork)
+
+You could also use Yarn for this if you prefer
+
+```bash
+cd generator-jhipster
+npm link
+
+cd multitenancy
+npm link generator-jhipster
+```
+
+3. Create a new folder for the app to be generated and link JHipster and your blueprint there
+
+```bash
+mkdir my-app && cd my-app
+
+npm link generator-jhipster-multitenancy
+npm link generator-jhipster (Optional: Needed only if you are using a non-released JHipster version)
+
+jhipster -d --blueprints multitenancy
+
+```
+# Sample Applications
+
+If you would like to see sample apps for this multitenancy blueprint, check out our sample [Angular](https://github.com/sonalake/jhipster-mt-sample-angular) and [REACT](https://github.com/sonalake/jhipster-mt-sample-react) apps.
 
 # License
 
